@@ -19,5 +19,5 @@ Dataset ini berisi data terkait **kematian akibat kanker paru-paru** dan merupak
 
 1. Clone repository:
    ```bash
-   git clone https://github.com/username/Eksperimen_SML_SuryaPratama.git
-   cd Eksperimen_SML_SuryaPratama
+   git clone https://github.com/username/Eksperimen_SML_NurArief.git
+   cd Eksperimen_SML_NurArief
