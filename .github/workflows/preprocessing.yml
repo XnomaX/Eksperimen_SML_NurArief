@@ -25,7 +25,7 @@ jobs:
 
       - name: Run preprocessing script
         run: |
-          python preprocessing/automate_NurAriefFauzianR.py lungdataset_raw/dataset_lung.zip dataset_med.csv preprocessing/dataset_preprocessing.csv
+          python preprocessing/automate_NurAriefFauzianR.py lungdataset_raw/dataset_lungs.zip dataset_med.csv preprocessing/dataset_preprocessing.csv
 
       - name: Upload preprocessed dataset
         uses: actions/upload-artifact@v4
