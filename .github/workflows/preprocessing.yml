@@ -32,3 +32,17 @@ jobs:
         with:
           name: preprocessed-data
           path: preprocessing/dataset_preprocessing.csv
+      - name: Zip preprocessed dataset
+        run: |
+          cd preprocessing
+          zip dataset_preprocessing.zip dataset_preprocessing.csv
+
+      - name: Commit ZIP file ke repo
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add preprocessing/dataset_preprocessing.zip
+          git commit -m "Auto: ZIP hasil preprocessing"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
