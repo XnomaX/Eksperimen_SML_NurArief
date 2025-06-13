@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import RandomOverSampler
 import zipfile
 import os
 import sys
@@ -42,17 +42,18 @@ def preprocess_dataset(zip_path, output_path, csv_inside_zip='dataset_med.csv', 
     y = df[target_column]
 
     # One-hot encoding kolom kategorikal
-    X = pd.get_dummies(X, drop_first=True)
+    X = pd.get_dummies(X,
+                       columns=['gender','smoking_status', 'treatment_type', 'family_history', 'cancer_stage', 'country'],
+                       drop_first=True)
+     
 
     # Standardisasi fitur numerik
     scaler = StandardScaler()
-    for col in numerical_cols:
-        if col in X.columns:
-            X[col] = scaler.fit_transform(X[[col]])
-
-    #Resampling dengan SMOTE
-    smote = SMOTE(random_state=42)
-    X_resampled, y_resampled = smote.fit_resample(X, y)
+    X[numerical_cols] = scaler.fit_transform(X[numerical_cols])
+    
+    #Resampling
+    oversampler = RandomOverSampler(random_state=42)
+    X_resampled, y_resampled = oversampler.fit_resample(X, y)
 
     # Gabungkan kembali dan simpan ke output
     processed_df = pd.concat([X_resampled, y_resampled.reset_index(drop=True)], axis=1)
