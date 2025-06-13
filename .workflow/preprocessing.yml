@@ -1,3 +1,4 @@
+name: Preprocess Dataset from ZIP
 on:
   push:
     paths:
