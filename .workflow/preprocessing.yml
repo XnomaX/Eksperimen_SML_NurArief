@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - 'preprocessing/automate_NurAriefFauzianR.py'
-      - 'lungdataset_raw/**'
+      - 'lungdataset/**'
   workflow_dispatch:
 
 jobs:
