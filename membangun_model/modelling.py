@@ -8,7 +8,7 @@ import zipfile
 
 # Aktifkan auto-logging
 mlflow.set_experiment("msml-basic")
-mlflow.set_tracking_uri("http://127.0.0.1:5000/")
+mlflow.set_tracking_uri("file:./mlruns")
 mlflow.sklearn.autolog()
 # Ekstraksi dataset
 zip_path = "../preprocessing/dataset_preprocessing.zip"  
