@@ -1,4 +1,5 @@
 import pandas as pd
+from dotenv import load_dotenv
 from sklearn.metrics import log_loss, roc_auc_score, balanced_accuracy_score
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier
@@ -7,15 +8,21 @@ import mlflow
 import mlflow.sklearn
 from dagshub import DAGsHubLogger
 import numpy as np
+import os
+
+load_dotenv()
 
 #Setup MLflow DagsHub
-mlflow.set_tracking_uri("https://dagshub.com/nurarief1123/msml-nurarief.mlflow")
+mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
+mlflow.set_experiment("msml-advance") 
+
+# Setting kredensial login untuk DagsHub
+mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
+os.environ["MLFLOW_TRACKING_USERNAME"] = os.getenv("MLFLOW_TRACKING_USERNAME")
+os.environ["MLFLOW_TRACKING_PASSWORD"] = os.getenv("MLFLOW_TRACKING_PASSWORD")
 mlflow.set_experiment("msml-advance")
 
 df = pd.read_csv('dataset_preprocessing.csv')
-
-# Ambil sampel acak 500 baris dari dataset untuk mempercepat proses training (komputasi terbatas)
-df = df.sample(n=500, random_state=42)
 
 #Preprocessing dasar
 X = df.drop(columns=["survived"])
@@ -29,17 +36,18 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 
 #Grid Search
 params = {
-     "n_estimators": np.linspace(10, 1000, 5, dtype=int),
-    "max_depth": np.linspace(1, 50, 5, dtype=int)
+     "n_estimators": [100, 200, 300],
+    "max_depth": [5, 10, 20],
+    "min_samples_split": [2, 5],
+    "min_samples_leaf": [1, 2]
 }
 
 grid = RandomizedSearchCV(
     estimator=RandomForestClassifier(random_state=42),
-    param_distributions=params,
-    n_iter=6,  
+    param_distributions=params,  
     cv=3,
     scoring='accuracy',
-    n_jobs=2,  
+    n_jobs=-1,  
     random_state=42
 )
 
