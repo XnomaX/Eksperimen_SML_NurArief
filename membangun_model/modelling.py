@@ -15,6 +15,7 @@ os.makedirs(tempfile.tempdir, exist_ok=True)
 # Aktifkan auto-logging
 mlflow.set_tracking_uri("file:///D:/MLflowRuns")
 mlflow.set_experiment("msml-basic")
+mlflow.set_tracking_uri("http://127.0.0.1:5000/")
 mlflow.sklearn.autolog()
 # Ekstraksi dataset
 zip_path = "../preprocessing/dataset_preprocessing.zip"  
